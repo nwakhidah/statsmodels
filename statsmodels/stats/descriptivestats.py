@@ -376,7 +376,8 @@ class DescrStats(object):
         perdicts = pd.concat([per for per in perdict.values()],
                                 keys=list(perdict.keys()),
                                 axis=1).T.round(3)
-        perdicts.rename(columns=lambda x: 'Col ' + str(x), inplace=True)
+        if self.data.columns.dtype is not np.dtype(np.object):
+            perdicts.rename(columns=lambda x: 'Col ' + str(x), inplace=True)
         return perdicts
 
     def summary_frame(self, stats='basic'):
@@ -402,7 +403,8 @@ class DescrStats(object):
             per = self.percentiles()
 
         df = pd.concat([nobs, mean, std, var], keys=stats, axis=1).T.round(3)
-        df.rename(columns=lambda x: 'Col ' + str(x), inplace=True)
+        if self.data.columns.dtype is not np.dtype(np.object):
+            df.rename(columns=lambda x: 'Col ' + str(x), inplace=True)
         summary_frame = pd.concat([df, per])
         return summary_frame
 
